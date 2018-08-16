@@ -1,19 +1,4 @@
 
-.todo-container {
-  border-radius: 10px;
-  background-color: white;
-  margin: 40px auto;
-  position: relative;
-  padding: 20px 30px;
-  width: 100%;
-  max-width: 320px;
-}
-
-.pagae-title {
-  font-size: 1.8em;
-  margin-bottom: 20px;
-}
-
 .todo-item {
   display: inline-flex;
   padding-top: 10px;
@@ -82,20 +67,4 @@ input[type='checkbox']:disabled+label:before {
   -webkit-transition: all 0.4s cubic-bezier(1, 0, 0.4, 1);
   transform: scale(1);
   -webkit-transform: scale(1);
-}
-
-.form-button {
-  margin-top: 40px;
-}
-
-.btn-primary {
-  border-radius: 100%;
-  font-size: 2em;
-  font-weight: bold;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: -30px;
-  height: 60px;
-  width: 60px;
 }
