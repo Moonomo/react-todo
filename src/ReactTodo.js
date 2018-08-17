@@ -1,59 +1,67 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {uniqueId} from 'underscore';
 import './ReactTodo.css';
 
-function Header() {
+const Header = () => {
   return (
     <h1 className="page-title">Todo</h1>
   );
-}
+};
 
-function List() {
+const List = ( {tasks} ) => {
   return (
     <div className="todo-list">
-      <div className="todo-item">
-        <div>
-          <input id="todo-1" className="form-check-input" type="checkbox"/>
-          <label htmlFor="todo-1" className="form-check-label">
-            Attend dev meeting.
-          </label>
-        </div>
-        <span>Attend dev meeting.</span>
-      </div>
-
-      <div className="todo-item">
-        <div>
-          <input id="todo-2" className="form-check-input" type="checkbox"/>
-          <label htmlFor="todo-2" className="form-check-label">
-            Check out Codepen.
-          </label>
-        </div>
-        <span>Check out json-scheme-form.</span>
-      </div>
-
-      <div className="todo-item done">
-        <div>
-          <input id="todo-4" className="form-check-input" type="checkbox" disabled/>
-          <label htmlFor="todo-4" className="form-check-label">
-            Completed task.
-          </label>
-        </div>
-        <span>Completed task.</span>
-      </div>
+      {tasks.map(( todo ) =>
+        <Todo key={todo.task} title={todo.task} status={todo.status}/>
+      )}
     </div>
   );
+};
+
+class Todo extends React.Component {
+
+  state = {
+    id: uniqueId('todo-')
+  };
+
+  statusToClassName = () => {
+    const mapping = {
+      0: 'todo-item',
+      1: 'todo-item done'
+    };
+    return mapping[ this.props.status ];
+  };
+
+  statusToDisableAttr = () => {
+    return this.props.status ? 'disabled' : false;
+  };
+
+  render() {
+    return (
+      <div className={this.statusToClassName()}>
+        <div>
+          <input id={this.state.id} disabled={this.statusToDisableAttr()} className="form-check-input" type="checkbox"/>
+          <label htmlFor={this.state.id} className="form-check-label">
+            {this.props.title}
+          </label>
+        </div>
+        <span>{this.props.title}</span>
+      </div>
+    );
+  }
 }
 
-function ReactTodo() {
+const ReactTodo = ( {tasks} ) => {
   return (
     <div className="container todo-container">
       <Header/>
-      <List/>
+      <List tasks={tasks}/>
       <div className="form-button text-center">
         <Link to="/add" className="btn btn-primary btn-add">+</Link>
       </div>
     </div>
   );
-}
+};
 
 export default ReactTodo;

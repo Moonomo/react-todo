@@ -4,28 +4,29 @@ class TodoForm extends React.Component {
   constructor( props ) {
     super(props);
     this.state = {
+      status: 0,
       task: ''
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit( event ) {
+  handleSubmit = ( event ) => {
     event.preventDefault();
     this.props.onAddTodo(this.state);
-  }
+  };
 
-  onFieldChange( event ) {
+  onFieldChange = ( event ) => {
     this.setState({
       [ event.target.name ]: event.target.value
     });
-  }
+  };
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="form-group">
-          <label htmlFor="task" className="hidden">Add Task</label>
+          <label htmlFor="task" className="sr-only">Add task to your todo list</label>
           <input type="text" className="form-control" name="task" value={this.state.task}
             onChange={this.onFieldChange}/>
         </div>
@@ -37,19 +38,19 @@ class TodoForm extends React.Component {
   }
 }
 
-function Header() {
+const Header = () => {
   return (
-    <h1 className="page-title">Todo</h1>
+    <h1 className="page-title">New Task</h1>
   );
-}
+};
 
-function AddTodoForm( {match, onAddTodo} ) {
+const AddTodoForm = ( {match, onAddTodo} ) => {
   return (
     <div className="container todo-container">
       <Header/>
       <TodoForm onAddTodo={onAddTodo}/>
     </div>
   );
-}
+};
 
 export default AddTodoForm;
