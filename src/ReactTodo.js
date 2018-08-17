@@ -8,40 +8,17 @@ const Header = () => {
   );
 };
 
-class List extends React.Component {
+const List = ( props ) => {
 
-  state = {
-    tasks: this.props.tasks
-  };
-
-  onToggle = ( event ) => {
-    event.preventDefault();
-
-    const newStatus = parseInt(event.target.dataset.status, 10) ? 0 : 1;
-    let updatedTasks = this.state.tasks.map(( todo, index ) => {
-      if (index === parseInt(event.target.dataset.id, 10)) {
-        todo = Object.assign({}, todo, {status: newStatus});
-      }
-
-      return todo;
-    });
-
-    this.setState({
-      tasks: updatedTasks
-    });
-  };
-
-  render() {
-    return (
-      <div className="todo-list">
-        {this.state.tasks.map(( todo, index ) =>
-          <Todo onToggle={this.onToggle} key={todo.task} id={index} title={todo.task}
-            status={todo.status}/>
-        )}
-      </div>
-    )
-  }
-}
+  return (
+    <div className="todo-list">
+      {props.tasks.map(( todo, index ) =>
+        <Todo onToggle={props.onToggle} key={todo.task} id={index} title={todo.task}
+          status={todo.status}/>
+      )}
+    </div>
+  )
+};
 
 const Todo = ( props ) => {
 
@@ -61,11 +38,11 @@ const Todo = ( props ) => {
   );
 };
 
-const ReactTodo = ( {tasks} ) => {
+const ReactTodo = ( props ) => {
   return (
     <div className="container todo-container">
       <Header/>
-      <List tasks={tasks}/>
+      <List tasks={props.tasks} onToggle={props.onToggle}/>
       <div className="form-button text-center">
         <Link to="/add" className="btn btn-primary btn-add">+</Link>
       </div>
