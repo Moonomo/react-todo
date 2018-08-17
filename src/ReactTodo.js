@@ -18,7 +18,7 @@ class List extends React.Component {
     event.preventDefault();
 
     const newStatus = parseInt(event.target.dataset.status, 10) ? 0 : 1;
-    let updatedSasks = this.state.tasks.map(( todo, index ) => {
+    let updatedTasks = this.state.tasks.map(( todo, index ) => {
       if (index === parseInt(event.target.dataset.id, 10)) {
         todo = Object.assign({}, todo, {status: newStatus});
       }
@@ -27,7 +27,7 @@ class List extends React.Component {
     });
 
     this.setState({
-      tasks: updatedSasks
+      tasks: updatedTasks
     });
   };
 
