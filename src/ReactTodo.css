@@ -1,27 +1,28 @@
 
 .todo-item {
-  display: inline-flex;
+  display: flex;
+  justify-content: flex-start;
   padding-top: 10px;
   padding-bottom: 10px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
 }
 
 .todo-item.done {
   color: #999;
 }
 
-.todo-item > span {
-  padding-top: 4px;
+.todo-item > div {
+  pointer-events: none;
 }
 
-input[type='checkbox'] {
-  opacity: 0;
-  z-index: -1;
-}
-
-input[type='checkbox']+label {
-  width: 30px;
+.todo-item > .todo-mark {
+  display: block;
   height: 30px;
-  margin-right: 10px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 30px;
   position: relative;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -29,15 +30,10 @@ input[type='checkbox']+label {
   text-indent: -999px;
   overflow: hidden;
   border: 1px solid #c9c9c9;
-  cursor: pointer;
-}
-
-input[type='checkbox']+label {
-  border: 1px solid #c9c9c9;
   background: transparent;
 }
 
-input[type='checkbox']+label:before {
+.todo-item > .todo-mark:before {
   content: '';
   width: 20px;
   height: 20px;
@@ -54,17 +50,19 @@ input[type='checkbox']+label:before {
   -webkit-transition: all 0.4s cubic-bezier(1, 0, 0.4, 0.5);
 }
 
-input[type='checkbox']:checked+label:before {
+.todo-item > .todo-title {
+  padding-top: 3px;
+  margin-left: 10px;
+}
+
+.todo-item.done > .todo-mark:before {
+  background-color: rgba(50, 50, 50, 0.2);
   transition: all 0.4s cubic-bezier(1, 0, 0.4, 1);
   -webkit-transition: all 0.4s cubic-bezier(1, 0, 0.4, 1);
   transform: scale(1);
   -webkit-transform: scale(1);
 }
 
-input[type='checkbox']:disabled+label:before {
-  background-color: rgba(50, 50, 50, 0.2);
-  transition: all 0.4s cubic-bezier(1, 0, 0.4, 1);
-  -webkit-transition: all 0.4s cubic-bezier(1, 0, 0.4, 1);
-  transform: scale(1);
-  -webkit-transform: scale(1);
+.todo-item.done > .todo-title {
+  text-decoration: line-through;
 }

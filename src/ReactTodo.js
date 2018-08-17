@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {uniqueId} from 'underscore';
 import './ReactTodo.css';
 
 const Header = () => {
@@ -9,48 +8,58 @@ const Header = () => {
   );
 };
 
-const List = ( {tasks} ) => {
-  return (
-    <div className="todo-list">
-      {tasks.map(( todo ) =>
-        <Todo key={todo.task} title={todo.task} status={todo.status}/>
-      )}
-    </div>
-  );
-};
-
-class Todo extends React.Component {
+class List extends React.Component {
 
   state = {
-    id: uniqueId('todo-')
+    tasks: this.props.tasks
   };
 
-  statusToClassName = () => {
-    const mapping = {
-      0: 'todo-item',
-      1: 'todo-item done'
-    };
-    return mapping[ this.props.status ];
-  };
+  onToggle = ( event ) => {
+    event.preventDefault();
 
-  statusToDisableAttr = () => {
-    return this.props.status ? 'disabled' : false;
+    const newStatus = parseInt(event.target.dataset.status, 10) ? 0 : 1;
+    let updatedSasks = this.state.tasks.map(( todo, index ) => {
+      if (index === parseInt(event.target.dataset.id, 10)) {
+        todo = Object.assign({}, todo, {status: newStatus});
+      }
+
+      return todo;
+    });
+
+    this.setState({
+      tasks: updatedSasks
+    });
   };
 
   render() {
     return (
-      <div className={this.statusToClassName()}>
-        <div>
-          <input id={this.state.id} disabled={this.statusToDisableAttr()} className="form-check-input" type="checkbox"/>
-          <label htmlFor={this.state.id} className="form-check-label">
-            {this.props.title}
-          </label>
-        </div>
-        <span>{this.props.title}</span>
+      <div className="todo-list">
+        {this.state.tasks.map(( todo, index ) =>
+          <Todo onToggle={this.onToggle} key={todo.task} id={index} title={todo.task}
+            status={todo.status}/>
+        )}
       </div>
-    );
+    )
   }
 }
+
+const Todo = ( props ) => {
+
+  const statusToClassName = () => {
+    const mapping = {
+      0: 'todo-item',
+      1: 'todo-item done'
+    };
+    return mapping[ props.status ];
+  };
+
+  return (
+    <div className={statusToClassName()} onClick={props.onToggle} data-id={props.id} data-status={props.status}>
+      <div className="todo-mark">.</div>
+      <div className="todo-title">{props.title}</div>
+    </div>
+  );
+};
 
 const ReactTodo = ( {tasks} ) => {
   return (
