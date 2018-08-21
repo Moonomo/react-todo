@@ -15,7 +15,6 @@ class App extends React.Component {
 
   onToggle = ( event ) => {
     event.preventDefault();
-
     const newStatus = parseInt(event.target.dataset.status, 10) ? 0 : 1;
     let updatedTasks = this.state.tasks.map(( todo, index ) => {
       if (index === parseInt(event.target.dataset.id, 10)) {
@@ -38,7 +37,8 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <React.Fragment>
-          <Route exact path="/" render={() => <ReactTodo tasks={this.state.tasks} onToggle={this.onToggle}/>}/>
+          <Route exact path="/"
+            render={() => <ReactTodo tasks={this.state.tasks} onToggle={this.onToggle}/>}/>
           <Route exact path="/add"
             render={() => <TodoFormWrapper tasks={this.state.tasks} onAddTodo={this.onAddTodo}/>}/>
         </React.Fragment>

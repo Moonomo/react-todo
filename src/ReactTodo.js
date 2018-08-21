@@ -4,7 +4,7 @@ import './ReactTodo.css';
 
 const Header = () => {
   return (
-    <h1 className="page-title">Todo</h1>
+    <h1 className="page-title">(todo)</h1>
   );
 };
 

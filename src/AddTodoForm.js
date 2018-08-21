@@ -40,7 +40,7 @@ class TodoForm extends React.Component {
 
 const Header = () => {
   return (
-    <h1 className="page-title">New Task</h1>
+    <h1 className="page-title">(new task)</h1>
   );
 };
 
