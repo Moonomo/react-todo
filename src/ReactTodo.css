@@ -1,7 +1,7 @@
 
 .todo-list {
   height: 275px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .todo-item {

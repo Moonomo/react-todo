@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import './ReactTodo.css';
 
 const Header = () => {
@@ -36,6 +37,13 @@ const Todo = ( props ) => {
       <div className="todo-title">{props.title}</div>
     </div>
   );
+};
+
+Todo.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  onToggle: PropTypes.func.isRequired,
+  status: PropTypes.string.isRequired
 };
 
 const ReactTodo = ( props ) => {
