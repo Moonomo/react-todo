@@ -40,10 +40,10 @@ const Todo = ( props ) => {
 };
 
 Todo.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   onToggle: PropTypes.func.isRequired,
-  status: PropTypes.string.isRequired
+  status: PropTypes.number.isRequired
 };
 
 const ReactTodo = ( props ) => {
