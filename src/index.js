@@ -8,12 +8,51 @@ import './index.css';
 import ReactTodo from './ReactTodo';
 import AddTodoForm from './AddTodoForm';
 
+const TASK_STORE_KEY = 'tasks';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tasks: [],
     };
+  }
+
+  componentDidMount() {
+    this.hydrateStateWithLocalStorage();
+
+    // add event listener to save state to localStorage
+    // when user leaves/refreshes the page
+    window.addEventListener(
+      'beforeunload',
+      this.saveStateToLocalStorage.bind(this)
+    );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      'beforeunload',
+      this.saveStateToLocalStorage.bind(this)
+    );
+
+    // saves if component has a chance to unmount
+    this.saveStateToLocalStorage();
+  }
+
+  hydrateStateWithLocalStorage() {
+
+    if (localStorage.hasOwnProperty(TASK_STORE_KEY)) {
+      // get the data from localStorage
+      let data = localStorage.getItem(TASK_STORE_KEY);
+
+      this.setState({
+        tasks: JSON.parse(data),
+      });
+    }
+  }
+
+  saveStateToLocalStorage() {
+    localStorage.setItem(TASK_STORE_KEY, JSON.stringify(this.state.tasks));
   }
 
   onAdd = (todo) => {
