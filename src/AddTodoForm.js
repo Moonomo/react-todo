@@ -79,12 +79,8 @@ class TodoForm extends React.Component {
   }
 }
 
-const Header = () =>
-  <h1 className="page-title">(new task)</h1>
-;
-
 const FormErrors = ({ formErrors }) =>
-  <div className="formErrors">
+  <div className="sr-only">
     {Object.keys(formErrors).map((fieldName, i) => {
       if (formErrors[fieldName].length > 0) {
         return (
@@ -99,7 +95,7 @@ const FormErrors = ({ formErrors }) =>
 
 const AddTodoForm = ({ match, onAddTodo }) =>
   <div className="container todo-container">
-    <Header />
+    <h1 className="page-title">(new task)</h1>
     <TodoForm onAddTodo={onAddTodo} />
   </div>
 ;
