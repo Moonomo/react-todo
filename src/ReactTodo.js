@@ -5,9 +5,9 @@ import './ReactTodo.css';
 
 const List = (props) =>
   <div className="todo-list">
-    {props.tasks.map((todo, index) =>
-      <Todo onToggle={props.onToggle} key={todo.task} id={index} title={todo.task}
-            status={todo.status} />
+    {props.tasks.map((todo) =>
+      <Todo onToggle={props.onToggle} key={todo.id} title={todo.task}
+            id={todo.id} status={todo.status} />
     )}
   </div>
 ;
@@ -23,10 +23,7 @@ const Todo = (props) => {
   };
 
   return (
-    <div className={statusToClassName()}
-         onClick={props.onToggle}
-         data-id={props.id}
-         data-status={props.status}>
+    <div className={statusToClassName()} onClick={() => props.onToggle(props)}>
       <div className="todo-mark">.</div>
       <div className="todo-title">{props.title}</div>
     </div>
@@ -35,9 +32,9 @@ const Todo = (props) => {
 
 Todo.propTypes = {
   id: PropTypes.number.isRequired,
+  status: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   onToggle: PropTypes.func.isRequired,
-  status: PropTypes.number.isRequired,
 };
 
 const ReactTodo = (props) =>
