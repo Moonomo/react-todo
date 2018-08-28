@@ -1,20 +1,22 @@
 import React from 'react';
 
 class TodoForm extends React.Component {
-  constructor( props ) {
+  constructor(props) {
     super(props);
     this.state = {
       status: 0,
       task: '',
-      formErrors: {task: ''},
+      formErrors: {
+        task: '',
+      },
       taskValid: false,
-      formValid: false
+      formValid: false,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  validateField = ( fieldName, value ) => {
+  validateField = (fieldName, value) => {
     let fieldValidationErrors = this.state.formErrors;
     let taskValid = this.state.taskValid;
 
@@ -29,34 +31,32 @@ class TodoForm extends React.Component {
 
     this.setState({
       formErrors: fieldValidationErrors,
-      taskValid: taskValid
+      taskValid: taskValid,
     }, this.validateForm);
   };
 
   validateForm = () => {
     this.setState({
-      formValid: this.state.taskValid
+      formValid: this.state.taskValid,
     });
   };
 
-  errorClass = ( error ) => {
-    return (error.length === 0 ? '' : 'has-error');
-  };
+  errorClass = (error) => (error.length === 0 ? '' : 'has-error');
 
-  handleSubmit = ( event ) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     this.props.onAddTodo(this.state);
   };
 
-  onFieldChange = ( event ) => {
+  onFieldChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     this.setState(
       {
-        [ name ]: value
+        [name]: value,
       },
       () => {
-        this.validateField(name, value)
+        this.validateField(name, value);
       });
   };
 
@@ -65,47 +65,43 @@ class TodoForm extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <div className={`form-group ${this.errorClass(this.state.formErrors.task)}`}>
           <label htmlFor="task" className="sr-only">Add task to your todo list</label>
-          <textarea type="text" className="form-control" name="task" value={this.state.task}
-            onChange={this.onFieldChange}/>
+          <textarea className="form-control" name="task" value={this.state.task}
+                    onChange={this.onFieldChange} />
         </div>
-        <FormErrors formErrors={this.state.formErrors}/>
+        <FormErrors formErrors={this.state.formErrors} />
         <div className="form-group form-button">
-          <button type="submit" className="btn btn-primary btn-add" disabled={!this.state.formValid}>&#x2714;</button>
+          <button type="submit"
+                  className="btn btn-primary btn-add"
+                  disabled={!this.state.formValid}>&#x2714;</button>
         </div>
       </form>
     );
   }
 }
 
-const Header = () => {
-  return (
-    <h1 className="page-title">(new task)</h1>
-  );
-};
+const Header = () =>
+  <h1 className="page-title">(new task)</h1>
+;
 
-const FormErrors = ( {formErrors} ) => {
-  return (
-    <div className='formErrors'>
-      {Object.keys(formErrors).map(( fieldName, i ) => {
-        if (formErrors[ fieldName ].length > 0) {
-          return (
-            <p key={i}>&#x26A0; {fieldName} {formErrors[ fieldName ]}</p>
-          )
-        } else {
-          return '';
-        }
-      })}
-    </div>
-  );
-};
+const FormErrors = ({ formErrors }) =>
+  <div className="formErrors">
+    {Object.keys(formErrors).map((fieldName, i) => {
+      if (formErrors[fieldName].length > 0) {
+        return (
+          <p key={i}>&#x26A0; {fieldName} {formErrors[fieldName]}</p>
+        );
+      } else {
+        return '';
+      }
+    })}
+  </div>
+;
 
-const AddTodoForm = ( {match, onAddTodo} ) => {
-  return (
-    <div className="container todo-container">
-      <Header/>
-      <TodoForm onAddTodo={onAddTodo}/>
-    </div>
-  );
-};
+const AddTodoForm = ({ match, onAddTodo }) =>
+  <div className="container todo-container">
+    <Header />
+    <TodoForm onAddTodo={onAddTodo} />
+  </div>
+;
 
 export default AddTodoForm;
