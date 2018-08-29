@@ -68,10 +68,12 @@ body {
 .btn-toggle {
   border-color: transparent;
   background-color: transparent;
-  outline: none;
+  color: #444;
+  padding: 0;
   position: absolute;
-  left: 20px;
+  left: 26px;
   bottom: 15px;
+  outline: none;
 }
 
 .btn-toggle:focus {

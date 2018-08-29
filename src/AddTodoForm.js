@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class TodoForm extends React.Component {
@@ -79,6 +80,7 @@ class TodoForm extends React.Component {
           <button type="submit"
                   className="btn btn-primary btn-add center"
                   disabled={!this.state.formValid}>&#x2714;</button>
+          <Link to="/" className="btn-toggle back">[back]</Link>
         </div>
       </form>
     );
