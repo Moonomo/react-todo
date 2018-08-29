@@ -4,16 +4,17 @@ import PropTypes from 'prop-types';
 import './ReactTodo.css';
 
 function Todo(props) {
-  const statusToClassName = () => {
-    const mapping = {
-      0: 'todo-item',
-      1: 'todo-item done',
-    };
-    return mapping[props.status];
+  const onToggle = () => {
+    if (props.deleteIsOn) {
+      props.onDelete(props.id);
+    } else {
+      props.onUpdate(props);
+    }
   };
 
   return (
-    <div className={statusToClassName()} onClick={() => props.onToggle(props)}>
+    <div className={'todo-item' + (props.status ? ' done' : '')}
+         onClick={onToggle}>
       <div className="todo-mark">.</div>
       <div className="todo-title">{props.title}</div>
     </div>
@@ -24,15 +25,22 @@ Todo.propTypes = {
   id: PropTypes.number.isRequired,
   status: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  onToggle: PropTypes.func.isRequired,
+  deleteIsOn: PropTypes.bool.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 function List(props) {
   return (
-    <div className="todo-list">
+    <div className={'todo-list' + (props.deleteIsOn ? ' delete' : ' update')}>
       {props.tasks.map((todo) =>
-        <Todo onToggle={props.onToggle} key={todo.id} title={todo.task}
-              id={todo.id} status={todo.status} />
+        <Todo key={todo.id}
+              id={todo.id}
+              status={todo.status}
+              title={todo.task}
+              deleteIsOn={props.deleteIsOn}
+              onUpdate={props.onUpdate}
+              onDelete={props.onDelete} />
       )}
     </div>
   );
@@ -40,24 +48,58 @@ function List(props) {
 
 List.propTypes = {
   tasks: PropTypes.array.isRequired,
-  onToggle: PropTypes.func.isRequired,
+  deleteIsOn: PropTypes.bool.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
-function ReactTodo(props) {
-  return (
-    <div className="container todo-container">
-      <h1 className="page-title">(todo)</h1>
-      <List tasks={props.tasks} onToggle={props.onToggle} />
-      <div className="form-button text-center">
-        <Link to="/add" className="btn btn-primary btn-add">+</Link>
+class ReactTodo extends React.Component {
+
+  static propTypes = {
+    tasks: PropTypes.array.isRequired,
+    onUpdate: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      deleteIsOn: false,
+    };
+
+    this.onToggle = this.onToggle.bind(this);
+  }
+
+  onToggle() {
+    const deleteIsOn = !this.state.deleteIsOn;
+
+    this.setState({
+      deleteIsOn: deleteIsOn,
+    });
+  }
+
+  render() {
+    return (
+      <div className="container todo-container">
+        <h1 className="page-title">{this.state.deleteIsOn ? '(delete)' : '(todo)'}</h1>
+        <List
+          tasks={this.props.tasks}
+          deleteIsOn={this.state.deleteIsOn}
+          onUpdate={this.props.onUpdate}
+          onDelete={this.props.onDelete} />
+        <div className="form-button text-center">
+          {!this.state.deleteIsOn ?
+            <Link to="add" className="btn btn-primary btn-add">+</Link> : ''}
+          {this.state.deleteIsOn || this.props.tasks.length ?
+            <button type="button"
+                    className="btn-toggle delete"
+                    onClick={this.onToggle}
+            >[{!this.state.deleteIsOn ? 'delete' : 'todo'}]</button> : ''}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
-
-ReactTodo.propTypes = {
-  tasks: PropTypes.array.isRequired,
-  onToggle: PropTypes.func.isRequired,
-};
 
 export default ReactTodo;

@@ -36,18 +36,44 @@ body {
 }
 
 .btn-add {
-  border-radius: 100%;
-  font-size: 2em;
+  border-radius: 0;
+  border-color: #444;
+  background-color: #444;
+  font-size: 1.8em;
   font-weight: bold;
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: -30px;
-  height: 60px;
-  width: 60px;
+  right: 0;
+  bottom: 0;
+  height: 54px;
+  width: 54px;
+  outline: none;
+}
+
+.btn-add:focus {
+  outline: none;
 }
 
 .btn-add:disabled {
   border-color: #c9c9c9;
   background-color: #c9c9c9;
+}
+
+.btn-add.center {
+  border-radius: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -27px;
+}
+
+.btn-toggle {
+  border-color: transparent;
+  background-color: transparent;
+  outline: none;
+  position: absolute;
+  left: 20px;
+  bottom: 15px;
+}
+
+.btn-toggle:focus {
+  outline: none;
 }

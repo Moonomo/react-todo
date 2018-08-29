@@ -47,7 +47,7 @@ class TodoForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.onAddTodo(this.state);
+    this.props.onCreate(this.state);
   }
 
   onFieldChange(event) {
@@ -77,7 +77,7 @@ class TodoForm extends React.Component {
         <FormErrors formErrors={this.state.formErrors} />
         <div className="form-group form-button">
           <button type="submit"
-                  className="btn btn-primary btn-add"
+                  className="btn btn-primary btn-add center"
                   disabled={!this.state.formValid}>&#x2714;</button>
         </div>
       </form>
@@ -101,17 +101,17 @@ function FormErrors({ formErrors }) {
   );
 }
 
-function AddTodoForm({ match, onAddTodo }) {
+function AddTodoForm({ match, onCreate }) {
   return (
     <div className="container todo-container">
-      <h1 className="page-title">(new task)</h1>
-      <TodoForm onAddTodo={onAddTodo} />
+      <h1 className="page-title">(new)</h1>
+      <TodoForm onCreate={onCreate} />
     </div>
   );
 }
 
 AddTodoForm.propTypes = {
-  onAddTodo: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
 };
 
 export default AddTodoForm;

@@ -15,17 +15,24 @@
   width: 100%;
 }
 
-.todo-item.done {
-  color: #999;
-}
-
 .todo-item > div {
   pointer-events: none;
 }
 
+.todo-item > .todo-title {
+  line-height: 25px;
+  margin-left: 15px;
+}
+
+.todo-item.done {
+  color: #999;
+}
+
+.todo-item.done > .todo-title {
+  color: #c9c9c9;
+}
+
 .todo-item > .todo-mark {
-  border: 1px solid #494949;
-  background: transparent;
   cursor: pointer;
   display: block;
   flex-grow: 0;
@@ -37,10 +44,25 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   text-indent: -999px;
+  background: transparent;
 }
 
-.todo-item > .todo-mark:before {
+.todo-list.update > .todo-item > .todo-mark {
+  border: 1px solid #494949;
+}
+
+.todo-list.update > .todo-item.done > .todo-mark {
+  border: 1px solid #797979;
+}
+
+.todo-list.update > .todo-item.done > .todo-mark:before {
   content: '';
+  border: 3px solid #494949;
+  border-top: none;
+  border-right: none;
+  background: transparent;
+  transform: rotate(-50deg);
+  -webkit-transform: rotate(-50deg);
   width: 24px;
   height: 10px;
   position: absolute;
@@ -48,20 +70,19 @@
   left: 3px;
 }
 
-.todo-item > .todo-title {
-  line-height: 25px;
-  margin-left: 15px;
+.todo-list.delete > .todo-item > .todo-mark {
+  border: 1px solid #494949;
 }
 
-.todo-item.done > .todo-mark:before {
-  border: 3px solid #797979;
-  border-top: none;
-  border-right: none;
-  background: transparent;
-  transform: rotate(-50deg);
-  -webkit-transform: rotate(-50deg);
-}
-
-.todo-item.done > .todo-title {
-  color: #c9c9c9;
+.todo-list.delete > .todo-item > .todo-mark:before {
+  content: '\00d7';
+  color: #494949;
+  font-size: 28px;
+  font-weight: bold;
+  text-indent: 12px;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }

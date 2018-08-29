@@ -16,7 +16,7 @@ class App extends React.Component {
       tasks: [],
     };
 
-    this.onAdd = this.onAdd.bind(this);
+    this.onCreate = this.onCreate.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.onDelete = this.onDelete.bind(this);
   }
@@ -58,7 +58,7 @@ class App extends React.Component {
     localStorage.setItem(TASK_STORE_KEY, JSON.stringify(this.state.tasks));
   }
 
-  onAdd(todo) {
+  onCreate(todo) {
     const newItem = {
       id: 1 + Math.random(),
       status: todo.status,
@@ -92,10 +92,10 @@ class App extends React.Component {
     });
   }
 
-  onDelete(todo) {
+  onDelete(id) {
     const tasks = [...this.state.tasks];
 
-    const updatedTasks = tasks.filter(item => item.id !== todo.id);
+    const updatedTasks = tasks.filter(item => item.id !== id);
 
     this.setState({
       tasks: updatedTasks,
@@ -107,10 +107,12 @@ class App extends React.Component {
       <BrowserRouter>
         <React.Fragment>
           <Route exact path="/"
-                 render={() => <ReactTodo tasks={this.state.tasks} onToggle={this.onUpdate} />} />
+                 render={() => <ReactTodo tasks={this.state.tasks}
+                                          onUpdate={this.onUpdate}
+                                          onDelete={this.onDelete} />} />
           <Route exact path="/add"
                  render={() => <WrappedTodoForm tasks={this.state.tasks}
-                                                onAddTodo={this.onAdd} />} />
+                                                onCreate={this.onCreate} />} />
         </React.Fragment>
       </BrowserRouter>
     );
@@ -120,15 +122,15 @@ class App extends React.Component {
 const WrappedTodoForm = withRouter((props) => (
   <AddTodoForm
     {...props}
-    onAddTodo={(todo) => {
-      props.onAddTodo(todo);
+    onCreate={(todo) => {
+      props.onCreate(todo);
       props.history.push('/');
     }} />
 ));
 
 WrappedTodoForm.propTypes = {
   tasks: PropTypes.array.isRequired,
-  onAddTodo: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
 };
 
 export default App;
