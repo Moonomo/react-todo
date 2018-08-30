@@ -1,0 +1,9 @@
+const ActionTypes = {
+  LOAD_TODO_DATA: 'LOAD_TODO_DATA',
+  SAVE_TODO_DATA: 'SAVE_TODO_DATA',
+  CREATE_TODO: 'CREATE_TODO',
+  UPDATE_TODO: 'UPDATE_TODO',
+  DELETE_TODO: 'DELETE_TODO',
+};
+
+export default ActionTypes;

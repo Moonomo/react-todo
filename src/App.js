@@ -1,11 +1,10 @@
 import React from 'react';
-import _ from 'lodash';
 import { BrowserRouter, Route, withRouter } from 'react-router-dom';
 import ReactTodo from './ReactTodo';
 import AddTodoForm from './AddTodoForm';
 import PropTypes from 'prop-types';
-
-const TASK_STORE_KEY = 'tasks';
+import Store from './data/Store';
+import Actions from './data/Actions';
 
 class App extends React.Component {
 
@@ -16,13 +15,18 @@ class App extends React.Component {
       tasks: [],
     };
 
+    this.onChange = this.onChange.bind(this);
     this.onCreate = this.onCreate.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.onDelete = this.onDelete.bind(this);
   }
 
+  componentWillMount() {
+    Store.addChangeListener(this.onChange);
+  }
+
   componentDidMount() {
-    this.hydrateStateWithLocalStorage();
+    Actions.loadTodoData();
 
     // add event listener to save state to localStorage
     // when user leaves/refreshes the page
@@ -32,7 +36,10 @@ class App extends React.Component {
     );
   }
 
+  // Clean up when this component is unmounted
   componentWillUnmount() {
+    Store.removeChangeListener(this.onChange);
+
     window.removeEventListener(
       'beforeunload',
       this.saveStateToLocalStorage.bind(this)
@@ -42,64 +49,26 @@ class App extends React.Component {
     this.saveStateToLocalStorage();
   }
 
-  hydrateStateWithLocalStorage() {
-
-    if (localStorage.hasOwnProperty(TASK_STORE_KEY)) {
-      // get the data from localStorage
-      let data = localStorage.getItem(TASK_STORE_KEY);
-
-      this.setState({
-        tasks: JSON.parse(data),
-      });
-    }
+  onChange() {
+    this.setState({
+      tasks: Store.getAllData(),
+    });
   }
 
   saveStateToLocalStorage() {
-    localStorage.setItem(TASK_STORE_KEY, JSON.stringify(this.state.tasks));
+    Actions.saveTodoData(Store.getAllData());
   }
 
   onCreate(todo) {
-    const newItem = {
-      id: 1 + Math.random(),
-      status: todo.status,
-      task: todo.task,
-    };
-
-    const updatedTasks = [...this.state.tasks];
-
-    updatedTasks.push(newItem);
-
-    this.setState({
-      tasks: updatedTasks,
-    });
+    Actions.createTodo(todo.task);
   }
 
   onUpdate(todo) {
-
-    const updatedTasks = [...this.state.tasks];
-    const taskIndex = _.indexOf(updatedTasks, _.find(updatedTasks, {
-      id: todo.id,
-    }));
-
-    updatedTasks.splice(taskIndex, 1, {
-      id: todo.id,
-      status: parseInt(todo.status, 10) ? 0 : 1,
-      task: todo.title,
-    });
-
-    this.setState({
-      tasks: updatedTasks,
-    });
+    Actions.updateTodo(todo);
   }
 
   onDelete(id) {
-    const tasks = [...this.state.tasks];
-
-    const updatedTasks = tasks.filter(item => item.id !== id);
-
-    this.setState({
-      tasks: updatedTasks,
-    });
+    Actions.deleteTodo(id);
   }
 
   render() {
